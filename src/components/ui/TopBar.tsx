@@ -7,6 +7,14 @@ import { SearchBar } from "./SearchBar"
 import Link from "next/link"
 import { useEffect, useState } from "react";
 
+const menuOptions = [
+  { name: 'Camisetas', path: '/category/camisetas' },
+  { name: 'Pantalones', path: '/category/pantalones' },
+  { name: 'Hombres', path: '/gender/hombres' },
+  { name: 'Mujeres', path: '/gender/mujeres' },
+  { name: 'Niños', path: '/gender/niños' },
+]
+
 export const TopBar = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +41,7 @@ export const TopBar = () => {
         {
           isMenuOpen ? (
             <svg className="block h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
             <svg className="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -45,18 +53,33 @@ export const TopBar = () => {
 
       {
         isMenuOpen && (
-          <div className="w-full h-full flex flex-col justify-start md:hidden bg-blue-200 fixed top-14 left-0 border border-blue-100">
-            <ul className="h-full flex flex-col p-10 gap-10">
-              <li className="text-black capitalize">camisetas</li>
-              <li className="text-black capitalize">pantalones</li>
-              <li className="text-black capitalize">hombres</li>
-              <li className="text-black capitalize">mujeres</li>
-              <li className="text-black capitalize">niños</li>
+          <div className="w-full h-full flex flex-col p-10 md:hidden bg-blue-200 fixed top-14 left-0 border border-blue-100 gap-10">
+
+            <ul className="w-full h-full flex flex-col gap-10">
+              {
+                menuOptions.map(opt => (
+                  <li key={opt.path} className="text-black text-2xl capitalize">
+                    <Link href={opt.path}>{opt.name}</Link>
+                  </li>
+                ))
+              }
             </ul>
-            <div className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer mt-4 hover:bg-slate-800 transition-colors duration-300">
-              <FontAwesomeIcon icon={faUser} width={14} height={14} />
-              <Link href={'/products'}>Iniciar sesion</Link>
+
+            <div className="h-full w-full flex flex-col gap-8">
+              <div className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300">
+                <FontAwesomeIcon icon={faBagShopping} width={14} height={14} />
+                <Link href={'/cart'}>Compras</Link>
+              </div>
+
+              <div className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300">
+                <FontAwesomeIcon icon={faUser} width={14} height={14} />
+                <Link href={'/account'}>Cuenta</Link>
+              </div>
+              <div className="w-full mt-8 lg:hidden flex items-center justify-center">
+                &copy;Copyright. All rights reserved
+              </div>
             </div>
+
           </div>
         )
       }
@@ -64,7 +87,7 @@ export const TopBar = () => {
       {/* Cuenta y Compras buttons */}
       <div className="w-fit h-fit hidden md:flex items-center gap-4 lg:gap-8">
         {/* Account button */}
-        <Link href={'/productos'} className="flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition-colors duration-300 transform p-2 rounded">
+        <Link href={'/account'} className="flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition-colors duration-300 transform p-2 rounded">
           <FontAwesomeIcon icon={faUser} className="text-black" width={20} height={20} />
           <span className="h-full">Cuenta</span>
         </Link>
@@ -74,8 +97,8 @@ export const TopBar = () => {
           <FontAwesomeIcon icon={faBagShopping} className="text-black" width={20} height={20} />
           <span>Compras</span>
         </Link>
-
       </div>
+
     </div>
 
   )

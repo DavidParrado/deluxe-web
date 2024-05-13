@@ -18,7 +18,7 @@ export const Landing = () => {
       {/* Image */}
       <Image
         src={"/imgs/toa-heftiba--abWByT3yg4-unsplash.jpg"}
-        className="md:block object-cover rounded-full"
+        className="hidden md:block object-cover rounded-full"
         width={250}
         height={250}
         alt=""
