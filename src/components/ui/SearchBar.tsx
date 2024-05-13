@@ -1,6 +1,11 @@
-export const SearchBar = () => {
+
+interface Props {
+  className?: React.StyleHTMLAttributes<HTMLDivElement>['className'];
+}
+
+export const SearchBar = ({ className }: Props) => {
   return (
-    <div className='w-full flex items-center justify-center bg-transparent sm:mx-0 lg:mx-2 xl:mx-20'>
+    <div className={`w-full flex items-center justify-center bg-transparent ${className}`}>
       <div className="flex w-full rounded bg-white">
         <input className="w-full border-none bg-transparent px-4 py-0 m-0 text-gray-400 outline-none focus:outline-none text-sm" type="search" name="search" placeholder="Buscar..." />
         <button type="submit" className="rounded rounded-l-none bg-slate-900 px-3 py-2 text-white">

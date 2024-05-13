@@ -10,7 +10,7 @@ export const Logo = () => {
         width={40}
         height={40}
       />
-      <h1 className="w-full font-bold text-xl">DELUXE</h1>
+      <h1 className="w-full font-bold md:text-xl">DELUXE</h1>
     </Link>
   )
 }

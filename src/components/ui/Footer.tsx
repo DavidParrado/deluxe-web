@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export const Footer = () => {
   return (
-    <footer className="bg-white dark:bg-gray-800">
-      <div className="container px-20 py-12">
+    <footer className="w-full h-full bg-white dark:bg-gray-800">
+      <div className="px-5 md:px-10 xl:px-20 py-12 w-full">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
           <div className="sm:col-span-2">
             <h1 className="max-w-lg text-xl font-semibold tracking-tight text-gray-800 xl:text-2xl dark:text-white">Únete a nuestra comunidad!</h1>
