@@ -5,11 +5,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Logo } from "./Logo"
 import { SearchBar } from "./SearchBar"
 import Link from "next/link"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const TopBar = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Disable scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMenuOpen]);
 
   return (
     <div className="w-full h-fit py-3 px-5 md:py-4 md:px-10 xl:px-20 bg-blue-200 flex justify-between items-center gap-10 md:gap-12 lg:gap-20 fixed top-0 left-0 z-10">
