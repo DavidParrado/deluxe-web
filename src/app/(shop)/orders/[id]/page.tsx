@@ -58,15 +58,14 @@ const address = {
 export default function OrderPage() {
   return (
     <div className="w-full flex justify-center">
-      <div className="flex flex-col w-full lg:max-w-[90%] xl:max-w-[80%]">
-
-        <h1 className="text-xl md:text-2xl xl:text-3xl font-bold">{`Orden #${order.id.split('-').at(-1)}`}</h1>
+      <div className="flex flex-col md:flex-row w-full lg:max-w-[90%] xl:max-w-[80%] gap-x-[5%] lg:gap-x-[10%]">
 
 
-        <div className="w-full flex flex-col md:flex-row mt-5 justify-between gap-x-[5%] lg:gap-x-[10%]">
+        <div className="w-full flex flex-col gap-4">
 
+          <h1 className="text-xl md:text-2xl xl:text-3xl font-bold">{`Orden #${order.id.split('-').at(-1)}`}</h1>
           {/* Carrito */}
-          <div className="w-full flex flex-col md:max-w-[50%]">
+          <div className="w-full flex flex-col">
 
             <OrderStatus isPaid={order.isPaid} />
 
@@ -103,38 +102,37 @@ export default function OrderPage() {
             }
           </div>
 
-          {/* Checkout - Resumen de orden */}
-          <div className="h-fit rounded-lg border bg-white p-6 shadow-md md:mt-0 w-full max-w-[50rem]">
-            <div className="flex flex-col justify-between gap-1 xl:gap-2">
-              <p className="text-lg font-bold">Direccion de entrega</p>
-              <p className="text-gray-700">Juan Grimaldo</p>
-              <p className="text-gray-700">Calle 3</p>
-              <p className="text-gray-700">500001</p>
-              <p className="text-gray-700">Villavicencio, Colombia</p>
-              <p className="text-gray-700">3223864759</p>
-            </div>
-            <hr className="my-4" />
-            <div className="xl:mb-2 flex justify-between">
-              <p className="text-gray-700">No. Productos</p>
-              <p className="text-gray-700">2</p>
-            </div>
-            <div className="flex justify-between">
-              <p className="text-gray-700">Subtotal</p>
-              <p className="text-gray-700">$130</p>
-            </div>
-            <hr className="my-4" />
-            <div className="flex justify-between">
-              <p className="text-lg font-bold">Total</p>
-              <div className="">
-                <p className="mb-1 text-lg font-bold">$134.98 USD</p>
-                <p className="text-sm text-gray-700">incluyendo impuestos</p>
-              </div>
-            </div>
+        </div>
 
-            <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar</button>
-            <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar con tarjeta de credito</button>
-
+        {/* Checkout - Resumen de orden */}
+        <div className="h-fit rounded-lg border bg-white p-6 shadow-md md:mt-0 w-full max-w-[50rem]">
+          <div className="flex flex-col justify-between gap-1 xl:gap-2">
+            <p className="text-lg font-bold">Direccion de entrega</p>
+            <p className="text-gray-700">Juan Grimaldo</p>
+            <p className="text-gray-700">Calle 3</p>
+            <p className="text-gray-700">500001</p>
+            <p className="text-gray-700">Villavicencio, Colombia</p>
+            <p className="text-gray-700">3223864759</p>
           </div>
+          <hr className="my-4" />
+          <div className="xl:mb-2 flex justify-between">
+            <p className="text-gray-700">No. Productos</p>
+            <p className="text-gray-700">2</p>
+          </div>
+          <div className="flex justify-between">
+            <p className="text-gray-700">Subtotal</p>
+            <p className="text-gray-700">$130</p>
+          </div>
+          <hr className="my-4" />
+          <div className="flex justify-between">
+            <p className="text-lg font-bold">Total</p>
+            <div className="">
+              <p className="mb-1 text-lg font-bold">$134.98 USD</p>
+            </div>
+          </div>
+
+          <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar</button>
+          <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar con tarjeta de credito</button>
 
         </div>
 
