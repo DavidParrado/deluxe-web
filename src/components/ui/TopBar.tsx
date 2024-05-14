@@ -1,6 +1,6 @@
 'use client';
 
-import { faUser, faBagShopping } from "@fortawesome/free-solid-svg-icons"
+import { faUser, faBagShopping, faCartShopping } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Logo } from "./Logo"
 import { SearchBar } from "./SearchBar"
@@ -86,17 +86,17 @@ export const TopBar = () => {
 
       {/* Cuenta y Compras buttons */}
       <div className="w-fit h-fit hidden md:flex items-center gap-4 lg:gap-8">
+        {/* Shopping button */}
+        <Link href={'/cart'} className="flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition-colors duration-300 transform p-2 m-[-0.5rem] rounded">
+          <FontAwesomeIcon icon={faCartShopping} className="text-black" width={20} height={20} />
+          <span>Carrito</span>
+        </Link>
         {/* Account button */}
         <Link href={'/account'} className="flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition-colors duration-300 transform p-2 rounded">
           <FontAwesomeIcon icon={faUser} className="text-black" width={20} height={20} />
           <span className="h-full">Cuenta</span>
         </Link>
 
-        {/* Shopping button */}
-        <Link href={'/cart'} className="flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition-colors duration-300 transform p-2 m-[-0.5rem] rounded">
-          <FontAwesomeIcon icon={faBagShopping} className="text-black" width={20} height={20} />
-          <span>Compras</span>
-        </Link>
       </div>
 
     </div>
