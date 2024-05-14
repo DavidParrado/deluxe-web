@@ -55,7 +55,7 @@ const address = {
   phone: '3223864759'
 }
 
-export default function OrderPage() {
+export default function CheckoutPage() {
   return (
     <div className="flex flex-col w-full sm:px-20 lg:px-40 mt-12 md:mt-0">
 
@@ -130,8 +130,7 @@ export default function OrderPage() {
             </div>
           </div>
 
-          <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar</button>
-          <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar con tarjeta de credito</button>
+          <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Generar orden</button>
 
         </div>
 
