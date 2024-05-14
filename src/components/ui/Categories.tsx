@@ -19,15 +19,15 @@ interface Props {
 export const Categories = ({ className }: Props) => {
 
   const pathname = usePathname();
-  if(pathname.startsWith('/account') || pathname.startsWith('/cart')) {
-    return <div className="mt-14 md:mt-16"></div>
+  if (pathname.startsWith('/account') || pathname.startsWith('/cart') || pathname.startsWith('/orders')) {
+    return <div className="mt-14 md:mt-[72px]"></div>
   }
 
   return (
-    <div className={`flex justify-between text-black mt-24 mb-6 px-5 md:px-10 xl:px-20 ${className}`}>
+    <div className={`flex justify-between text-black mt-14 py-4 md:py-6 md:mt-[72px] px-5 md:px-10 xl:px-20 ${className}`}>
       {
         categories.map((category, i) => (
-          <Link href={category.path} key={category.name + i} className="capitalize hover:underline cursor-pointer">{category.name}</Link>
+          <Link href={category.path} key={category.name + i} className={`${i + 1 > 3 ? 'hidden' : ''} md:flex capitalize hover:underline cursor-pointer`}>{category.name}</Link>
         ))
       }
     </div>

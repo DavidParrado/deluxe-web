@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export const Landing = () => {
   return (
-    <div className="w-full h-full md:flex md:flex-row items-center justify-between lg:gap-72 mt-10 mb-0 md:mt-12 md:mb-32 gap-10 md:gap-20">
+    <div className="w-full h-full md:flex md:flex-row items-center justify-between lg:gap-72 mb-0 md:mt-12 md:mb-32 gap-10 md:gap-20">
       {/* Title */}
       <div className="w-full flex flex-col justify-center gap-6 mb-10">
         <h1 className="uppercase md:text-4xl font-bold">Bienvenido a deluxe</h1>

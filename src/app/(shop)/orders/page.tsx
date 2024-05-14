@@ -6,7 +6,7 @@ const orders = [
 
 export default function OrdersPage() {
   return (
-    <section className="w-full mt-12 md:mt-0">
+    <section className="w-full mt-0 h-full">
       <h1 className="font-bold mb-4">Todas las ordenes</h1>
       <div className="w-full flex flex-col">
         <div className="w-full overflow-x-auto ">

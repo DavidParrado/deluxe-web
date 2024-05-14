@@ -8,8 +8,8 @@ export default function ShopLayout({
   return (
     <main className="h-full">
       <TopBar />
-      <Categories className="hidden md:flex"/>
-      <div className="w-full h-full px-5 md:px-10 xl:px-20 bg-gradient-to-bl from-blue-50 to-violet-50 py-10">
+      <Categories className="md:flex"/>
+      <div className="w-full h-full px-5 md:px-10 xl:px-20 bg-gradient-to-bl from-blue-50 to-violet-50 py-10 min-h-[calc(100vh-491px-56px)] md:min-h-[calc(100vh-455px-144px)] lg:min-h-[calc(100vh-321px-72px)]">
         {children}
       </div>
       <Footer />
