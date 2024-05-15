@@ -1,11 +1,12 @@
 'use client';
 
-import { faUser, faBagShopping, faCartShopping } from "@fortawesome/free-solid-svg-icons"
+import { faUser, faBagShopping, faCartShopping, faHamburger, faBars } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Logo } from "./Logo"
 import { SearchBar } from "./SearchBar"
 import Link from "next/link"
 import { useEffect, useState } from "react";
+import { useUIStore } from "@/store";
 
 const menuOptions = [
   { name: 'Camisetas', path: '/category/camisetas' },
@@ -18,6 +19,7 @@ const menuOptions = [
 export const TopBar = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const openMenu = useUIStore(state => state.openSideMenu);
 
   // Disable scroll when menu is open
   useEffect(() => {
@@ -92,10 +94,13 @@ export const TopBar = () => {
           <span>Carrito</span>
         </Link>
         {/* Account button */}
-        <Link href={'/account'} className="flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition-colors duration-300 transform p-2 rounded">
-          <FontAwesomeIcon icon={faUser} className="text-black" width={20} height={20} />
-          <span className="h-full">Cuenta</span>
-        </Link>
+        <button
+          className="flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition-colors duration-300 transform p-2 rounded"
+          onClick={() => openMenu()}
+        >
+          <FontAwesomeIcon icon={faBars} className="text-black" width={20} height={20} />
+          <span className="h-full">Menu</span>
+        </button>
 
       </div>
 
