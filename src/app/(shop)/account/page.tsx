@@ -1,3 +1,5 @@
+import { auth } from "@/auth.config";
+import { redirect } from "next/navigation";
 
 const user = {
   firstName: 'Juan David',
@@ -10,7 +12,13 @@ const user = {
 }
 
 
-export default function AccountPage() {
+export default async function AccountPage() {
+  const session = await auth();
+
+  if (!session?.user) {
+    // redirect('/auth/login?returnTo=/perfil');
+    redirect('/');
+  }
 
   return (
     <section className="w-full flex justify-center items-center">

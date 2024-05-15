@@ -8,11 +8,10 @@ import bcryptjs from "bcryptjs";
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: "/auth/login",
-    newUser: "/auth/new-account",
+    newUser: "/auth/register",
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      console.log({ auth });
       const isLoggedIn = !!auth?.user;
       const isOnCheckout = nextUrl.pathname.startsWith("/checkout");
       if (isOnCheckout) {
