@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket, faRightToBracket, faBagShopping, faUser, faUsers, faXmark, faBookmark, faStore } from '@fortawesome/free-solid-svg-icons';
 import { useUIStore } from '@/store';
+import { useSession } from 'next-auth/react';
+import { logout } from '@/actions';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   className?: string;
@@ -13,9 +16,11 @@ export const Sidebar = ({ className }: Props) => {
   const isSideMenuOpen = useUIStore(state => state.isSideMenuOpen);
   const closeMenu = useUIStore(state => state.closeSideMenu);
 
-  // const { data: session } = useSession();
-  // const isAuthenticated = !!session?.user;
-  // const isAdmin = session?.user.role === "admin";
+  const router = useRouter();
+
+  const { data: session } = useSession();
+  const isAuthenticated = !!session?.user;
+  const isAdmin = session?.user.role === "admin";
 
   return (
     <div className={className}>
@@ -50,77 +55,97 @@ export const Sidebar = ({ className }: Props) => {
         {/* Menu */}
 
         {/* Authenticated */}
-        <Link
-          href="/account"
-          onClick={() => closeMenu()}
-          className="flex items-center p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <FontAwesomeIcon icon={faUser} className='h-8 w-8' />
-          <span className="ml-3 text-xl">Perfil</span>
-        </Link>
+        {
+          isAuthenticated && (
+            <>
+              <Link
+                href="/account"
+                onClick={() => closeMenu()}
+                className="flex items-center p-2 hover:bg-blue-50 py-4 rounded transition-all"
+              >
+                <FontAwesomeIcon icon={faUser} className='h-8 w-8' />
+                <span className="ml-3 text-xl">Perfil</span>
+              </Link>
 
-        <Link
-          href="/orders"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <FontAwesomeIcon icon={faBagShopping} className='h-8 w-8' />
-          <span className="ml-3 text-xl">Ordenes</span>
-        </Link>
+              <Link
+                href="/orders"
+                className="flex items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
+              >
+                <FontAwesomeIcon icon={faBagShopping} className='h-8 w-8' />
+                <span className="ml-3 text-xl">Ordenes</span>
+              </Link>
 
-        <button
-          className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => { }}
-        >
-          <FontAwesomeIcon icon={faRightFromBracket} className='h-8 w-8' />
-          <span className="ml-3 text-xl">Salir</span>
-        </button>
+              <button
+                className="flex w-full items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
+                onClick={() => {
+                  logout()
+                  closeMenu()
+                  router.refresh()
+                  
+                }}
+              >
+                <FontAwesomeIcon icon={faRightFromBracket} className='h-8 w-8' />
+                <span className="ml-3 text-xl">Salir</span>
+              </button>
+            </>
+          )
+        }
 
-        {/* Authenticated */}
-        <Link
-          href="/auth/login"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <FontAwesomeIcon icon={faRightToBracket} className='h-8 w-8' />
-          <span className="ml-3 text-xl">Ingresar</span>
-        </Link>
+        {/* Not authenticated */}
+        {
+          !isAuthenticated && (
+            <Link
+              href="/auth/login"
+              className="flex items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
+            >
+              <FontAwesomeIcon icon={faRightToBracket} className='h-8 w-8' />
+              <span className="ml-3 text-xl">Ingresar</span>
+            </Link>
+          )
+        }
 
         {/* Admin routes */}
-        <div className="w-full h-px bg-white my-10" />
-        <Link
-          href="/admin/users"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => closeMenu()}
-        >
-          <FontAwesomeIcon icon={faUsers} className='h-8 w-8' />
-          <span className="ml-3 text-xl">Usuarios</span>
-        </Link>
+        {
+          isAdmin &&
+          <>
+            <div className="w-full h-px bg-white my-10" />
+            <Link
+              href="/admin/users"
+              className="flex items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
+              onClick={() => closeMenu()}
+            >
+              <FontAwesomeIcon icon={faUsers} className='h-8 w-8' />
+              <span className="ml-3 text-xl">Usuarios</span>
+            </Link>
 
-        <Link
-          href="/admin/orders"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => closeMenu()}
-        >
-          <FontAwesomeIcon icon={faBagShopping} className='h-8 w-8' />
-          <span className="ml-3 text-xl">Ordenes</span>
-        </Link>
+            <Link
+              href="/admin/orders"
+              className="flex items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
+              onClick={() => closeMenu()}
+            >
+              <FontAwesomeIcon icon={faBagShopping} className='h-8 w-8' />
+              <span className="ml-3 text-xl">Ordenes</span>
+            </Link>
 
-        <Link
-          href="/admin/products"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => closeMenu()}
-        >
-          <FontAwesomeIcon icon={faStore} className='h-8 w-8' />
-          <span className="ml-3 text-xl">Productos</span>
-        </Link>
+            <Link
+              href="/admin/products"
+              className="flex items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
+              onClick={() => closeMenu()}
+            >
+              <FontAwesomeIcon icon={faStore} className='h-8 w-8' />
+              <span className="ml-3 text-xl">Productos</span>
+            </Link>
 
-        <Link
-          href="/admin/users"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => closeMenu()}
-        >
-          <FontAwesomeIcon icon={faBookmark} className='h-8 w-8' />
-          <span className="ml-3 text-xl">Categorias</span>
-        </Link>
+            <Link
+              href="/admin/users"
+              className="flex items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
+              onClick={() => closeMenu()}
+            >
+              <FontAwesomeIcon icon={faBookmark} className='h-8 w-8' />
+              <span className="ml-3 text-xl">Categorias</span>
+            </Link>
+          </>
+        }
 
       </nav>
 

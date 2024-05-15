@@ -95,7 +95,7 @@ export const TopBar = () => {
         </Link>
         {/* Account button */}
         <button
-          className="flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition-colors duration-300 transform p-2 rounded"
+          className="flex items-center gap-2 -mr-[6px] cursor-pointer hover:bg-blue-100 transition-colors duration-300 transform p-2 rounded"
           onClick={() => openMenu()}
         >
           <FontAwesomeIcon icon={faBars} className="text-black" width={20} height={20} />

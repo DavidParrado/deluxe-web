@@ -1,3 +1,6 @@
+export * from "./account/AccountForm";
+export * from "./account/ContactForm";
+
 export * from "./auth/LoginForm";
 export * from "./auth/RegisterForm";
 

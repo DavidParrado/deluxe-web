@@ -1,34 +1,100 @@
 'use client';
 
+import { login } from "@/actions";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type FormInputs = {
+  email: string;
+  password: string;
+}
 
 export const LoginForm = () => {
 
+  const [errorMessage, setErrorMessage] = useState('');
+  const { register, handleSubmit, formState: { errors, isValid }, setError, clearErrors, watch } = useForm<FormInputs>();
+
+  watch('email');
+  watch('password');
+
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    setErrorMessage('');
+    // clearErrors();
+
+    const { email, password } = data;
+    console.log(data)
+    if (password.trim().length <= 0) {
+      console.log('Primera validacoin')
+      setError('password', { message: 'Los valores no pueden ser espacios' })
+    }
+
+    console.log('Mirando los errores')
+    console.log({errors})
+
+    if (Object.values(errors).length > 0) {
+      return;
+    };
+
+    // Server action
+    const resp = await login(email.toLowerCase(), password);
+    if (!resp.ok) {
+      setErrorMessage(resp.message ?? "No se pudo iniciar sesion, intenta de nuevo")
+      return;
+    }
+    window.location.replace('/')
+  }
 
 
   return (
     <div className="w-full lg:w-2/3 flex justify-center items-center">
 
-      <form className="bg-white rounded-md shadow-2xl p-5 w-full max-w-[30rem]">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-md shadow-2xl p-5 w-full max-w-[30rem]">
 
-        <h1 className="text-gray-800 font-bold text-2xl mb-1">Hola de nuevo!</h1>
-        <p className="text-sm font-normal text-gray-600 mb-8">Bienvenido</p>
+        <h1 className="text-gray-800 font-bold text-3xl mb-1">Hola de nuevo!</h1>
+        <p className="text-lg font-normal text-gray-600 mb-4">Bienvenido</p>
 
-        <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-          </svg>
-          <input id="email" className=" pl-2 w-full outline-none border-none" type="email" name="email" placeholder="Correo electronico" />
+        <div className='w-full flex flex-col gap-5'>
+          <div className={`flex items-center border-2 py-2 px-4 rounded-2xl ${errors.email && 'border-red-500'}`}>
+            <FontAwesomeIcon icon={faEnvelope} className='w-4 h-4 text-gray-400' />
+            <input
+              className="pl-2 w-full outline-none border-none"
+              type="email"
+              placeholder="Correo electronico"
+              {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+            />
+          </div>
+          {
+            errors.email?.message && (
+              <span className='-my-4 text-red-500'>{errors.email.message}</span>
+            )
+          }
+
+          <div className={`flex items-center border-2 py-2 px-4 rounded-2xl ${errors.password && 'border-red-500'}`}>
+            <FontAwesomeIcon icon={faLock} className='w-4 h-4 text-gray-400' />
+            <input
+              className="pl-2 w-full outline-none border-none"
+              type="password"
+              placeholder="Contraseña"
+              {...register('password', { required: true })}
+            />
+          </div>
+          {
+            errors.password?.message && (
+              <span className='-my-4 text-red-500'>{errors.password.message}</span>
+            )
+          }
         </div>
 
-        <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl ">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-          </svg>
-          <input className="pl-2 w-full outline-none border-none" type="password" name="password" id="password" placeholder="Contraseña" />
-        </div>
+        {
+          errorMessage && (
+            <span className="text-red-500">*{errorMessage}</span>
+          )
+        }
 
-        <button type="submit" className="block w-full bg-slate-800 mt-5 py-2 rounded-2xl hover:bg-slate-700 transition-all duration-500 text-white font-semibold mb-2">Iniciar sesion</button>
+        <button className="block w-full bg-slate-800 mt-5 py-2 rounded-2xl hover:bg-slate-700 transition-all duration-500 text-white font-semibold mb-2">Iniciar sesion</button>
 
         <div className="flex justify-between mt-4">
           <Link href="/" className="text-sm ml-2 hover:text-blue-500 cursor-pointer duration-500 transition-all">Regresar</Link>
