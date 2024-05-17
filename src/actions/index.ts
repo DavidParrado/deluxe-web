@@ -7,3 +7,4 @@ export * from "./address/get-user-address";
 export * from "./address/set-user-address";
 
 export * from "./account/set-account-info";
+export * from "./user/get-user-info";

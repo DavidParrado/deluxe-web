@@ -15,9 +15,10 @@ export const setAccountInfo = async (
     const accountUpdated = await prisma.user.update({
       where: { id: userId },
       data: {
-        firstName: firstName.toLowerCase(),
-        lastName: lastName.toLowerCase(),
+        firstName: firstName,
+        lastName: lastName,
       },
+      select: {email: true, firstName: true, lastName: true}
     });
     return {
       ok: true,

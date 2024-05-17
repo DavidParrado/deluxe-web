@@ -17,3 +17,5 @@ export * from "./products/ProductGrid";
 
 export * from "./orders/NotPaidButton";
 export * from "./orders/PaidButton";
+
+export * from "./ui/Spinner";

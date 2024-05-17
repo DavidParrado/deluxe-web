@@ -16,8 +16,6 @@ export const Sidebar = ({ className }: Props) => {
   const isSideMenuOpen = useUIStore(state => state.isSideMenuOpen);
   const closeMenu = useUIStore(state => state.closeSideMenu);
 
-  const router = useRouter();
-
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
   const isAdmin = session?.user.role === "admin";
@@ -77,10 +75,10 @@ export const Sidebar = ({ className }: Props) => {
 
               <button
                 className="flex w-full items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
-                onClick={() => {
-                  logout()
+                onClick={async() => {
+                  await logout()
                   closeMenu()
-                  router.refresh()
+                  window.location.reload()
                   
                 }}
               >
