@@ -3,9 +3,11 @@
 import { login, registerUser } from '@/actions';
 import { faAddressBook, faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { ZodType, z } from 'zod';
 
 type FormInputs = {
   firstName: string;
@@ -15,22 +17,24 @@ type FormInputs = {
 }
 
 
+const schemaValidator: ZodType<FormInputs> = z.object({
+  firstName: z.string().min(1, "No debe estar vacio").trim().min(1, "No puede tener espacios"),
+  lastName: z.string().min(1, "No debe estar vacio").trim().min(1, "No puede tener espacios"),
+  email: z.string().email("Debe ser un email valido"),
+  password: z.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, "La contraseña debe tener minimo 8 caracteres, al menos una letra y un numero"),
+})
+
 export const RegisterForm = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
-  const { register, handleSubmit, formState: { errors, isValid }, setError } = useForm<FormInputs>();
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm<FormInputs>({ resolver: zodResolver(schemaValidator) });
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     setErrorMessage('');
 
     const { firstName, lastName, email, password } = data;
-    if (firstName.trim().length <= 0) setError('firstName', { message: 'Los valores no pueden ser espacios' })
-    if (lastName.trim().length <= 0) setError('lastName', { message: 'Los valores no pueden ser espacios' })
-    if (email.trim().length <= 0) setError('email', { message: 'Los valores no pueden ser espacios' })
-    if (password.trim().length <= 0) setError('password', { message: 'Los valores no pueden ser espacios' })
+    console.log("Paseee")
 
-    if (!isValid || errors) return;
-    
     // Server action
     const resp = await registerUser(firstName, lastName, email, password);
     if (!resp.ok) {

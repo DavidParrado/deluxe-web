@@ -6,35 +6,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { ZodType, z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type FormInputs = {
   email: string;
   password: string;
 }
 
+const schemaValidator: ZodType<FormInputs> = z.object({
+  email: z.string().email("Debe ser un email valido"),
+  password: z.string().min(1, "Campo no puede estar vacio"),
+})
+
+
 export const LoginForm = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
-  const { register, handleSubmit, formState: { errors, isValid }, setError, clearErrors, watch } = useForm<FormInputs>();
+  const { register, handleSubmit, formState: { errors, isValid }, watch } = useForm<FormInputs>({ resolver: zodResolver(schemaValidator) });
 
   watch('email');
   watch('password');
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     setErrorMessage('');
-    // clearErrors();
-
     const { email, password } = data;
-    console.log(data)
-    if (password.trim().length <= 0) {
-      console.log('Primera validacoin')
-      setError('password', { message: 'Los valores no pueden ser espacios' })
-    }
 
-    console.log('Mirando los errores')
-    console.log({errors})
-
-    if (Object.values(errors).length > 0) {
+    if (!isValid) {
       return;
     };
 
@@ -51,46 +49,51 @@ export const LoginForm = () => {
   return (
     <div className="w-full lg:w-2/3 flex justify-center items-center">
 
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-md shadow-2xl p-5 w-full max-w-[30rem]">
+      <form noValidate onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-md shadow-2xl p-5 w-full max-w-[30rem]">
 
         <h1 className="text-gray-800 font-bold text-3xl mb-1">Hola de nuevo!</h1>
         <p className="text-lg font-normal text-gray-600 mb-4">Bienvenido</p>
 
         <div className='w-full flex flex-col gap-5'>
-          <div className={`flex items-center border-2 py-2 px-4 rounded-2xl ${errors.email && 'border-red-500'}`}>
-            <FontAwesomeIcon icon={faEnvelope} className='w-4 h-4 text-gray-400' />
-            <input
-              className="pl-2 w-full outline-none border-none"
-              type="email"
-              placeholder="Correo electronico"
-              {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
-            />
+          <div className="flex flex-col gap-1">
+            <div className={`flex items-center border-2 py-2 px-4 rounded-2xl ${errors.email && 'border-red-500'}`}>
+              <FontAwesomeIcon icon={faEnvelope} className='w-4 h-4 text-gray-400' />
+              <input
+                className="pl-2 w-full outline-none border-none"
+                type="email"
+                placeholder="Correo electronico"
+                {...register('email')}
+              />
+            </div>
+            {
+              errors.email?.message && (
+                <span className='text-red-500'>{errors.email.message}</span>
+              )
+            }
           </div>
-          {
-            errors.email?.message && (
-              <span className='-my-4 text-red-500'>{errors.email.message}</span>
-            )
-          }
 
-          <div className={`flex items-center border-2 py-2 px-4 rounded-2xl ${errors.password && 'border-red-500'}`}>
-            <FontAwesomeIcon icon={faLock} className='w-4 h-4 text-gray-400' />
-            <input
-              className="pl-2 w-full outline-none border-none"
-              type="password"
-              placeholder="Contraseña"
-              {...register('password', { required: true })}
-            />
+          <div>
+            <div className={`flex items-center border-2 py-2 px-4 rounded-2xl ${errors.password && 'border-red-500'}`}>
+              <FontAwesomeIcon icon={faLock} className='w-4 h-4 text-gray-400' />
+              <input
+                className="pl-2 w-full outline-none border-none"
+                type="password"
+                placeholder="Contraseña"
+                {...register('password')}
+              />
+            </div>
+            {
+              errors.password?.message && (
+                <span className='text-red-500'>{errors.password.message}</span>
+              )
+            }
           </div>
-          {
-            errors.password?.message && (
-              <span className='-my-4 text-red-500'>{errors.password.message}</span>
-            )
-          }
+
         </div>
 
         {
           errorMessage && (
-            <span className="text-red-500">*{errorMessage}</span>
+            <p className="text-red-500">*{errorMessage}</p>
           )
         }
 
