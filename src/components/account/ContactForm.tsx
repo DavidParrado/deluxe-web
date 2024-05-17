@@ -2,7 +2,7 @@
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Dropdown } from "../ui/Dropdown";
-import { countries } from "@/seed/countries";
+import { countries } from "@/seed/seed-countries";
 import { ZodType, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserAddress } from "@/interfaces";
@@ -58,7 +58,7 @@ export const ContactForm = ({ addressInfo }: Props) => {
 
   const onSubmit: SubmitHandler<ContactInputs> = async (data) => {
     setIsLoading(true);
-    console.log({data})
+    console.log({ data })
 
     await setUserAddress(data, session!.user.id)
 
@@ -143,7 +143,7 @@ export const ContactForm = ({ addressInfo }: Props) => {
             </label>
             <Controller
               name="country"
-              defaultValue={{ id: "", name: "Seleccione un pais" }}
+              defaultValue={{ id: addressInfo?.country.id ?? "", name: addressInfo?.country.name ?? "Seleccione un pais" }}
               control={control}
               render={({ field }) => (
                 <Dropdown
