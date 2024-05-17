@@ -12,10 +12,10 @@ export * from "./ui/Logo";
 export * from "./ui/TopBar";
 export * from "./ui/Categories";
 export * from "./ui/Pagination";
+export * from "./ui/Spinner";
+export * from "./ui/Dropdown";
 
 export * from "./products/ProductGrid";
 
 export * from "./orders/NotPaidButton";
 export * from "./orders/PaidButton";
-
-export * from "./ui/Spinner";

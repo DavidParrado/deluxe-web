@@ -26,7 +26,7 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
       where: { userId: userId },
     });
     const country = await prisma.country.findFirst({
-      where: { name: address.country.toLowerCase() },
+      where: { name: address.country.name.toLowerCase() },
     });
 
     const addressToSave = {
@@ -36,7 +36,7 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
       address: address.address,
       postalCode: address.postalCode,
       city: address.city,
-      countryId: address.country,
+      countryId: address.country.id,
       phone: address.phone,
     };
 

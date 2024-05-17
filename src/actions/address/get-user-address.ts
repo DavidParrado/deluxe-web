@@ -13,13 +13,7 @@ export const getUserAddress = async (userId: string) => {
 
     if (!address) return null;
 
-    const { countryId, address2, ...rest } = address;
-
-    return {
-      ...address,
-      address2: address2 ? address2 : "",
-      country: countryId,
-    };
+    return address;
   } catch (error) {
     console.log(error);
     return null;

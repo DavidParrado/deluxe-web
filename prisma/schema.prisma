@@ -102,7 +102,6 @@ model UserAddress {
   firstName  String
   lastName   String
   address    String
-  address2   String?
   postalCode String
   phone      String
   city       String
@@ -156,7 +155,6 @@ model OrderAddress {
   firstName  String
   lastName   String
   address    String
-  address2   String?
   postalCode String
   city       String
   phone      String

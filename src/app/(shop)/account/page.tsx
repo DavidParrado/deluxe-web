@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { AccountForm } from '../../../components/account/AccountForm';
 import { ContactForm } from "@/components";
 import { User } from "@/interfaces";
-import { getUserInfo } from "@/actions";
+import { getUserAddress, getUserInfo } from "@/actions";
 
 export default async function AccountPage() {
   const session = await auth();
@@ -13,6 +13,7 @@ export default async function AccountPage() {
   }
 
   const userInfo = await getUserInfo(session.user.id) ?? session.user;
+  const addressInfo = await getUserAddress(session.user.id);
 
   return (
     <section className="w-full flex justify-center items-center">
@@ -27,7 +28,7 @@ export default async function AccountPage() {
           <div className="flex-auto px-6 pb-4 pt-0">
             <AccountForm accountInfo={userInfo as User}/>
             <hr className="border-b-1" />
-            <ContactForm />
+            <ContactForm addressInfo={addressInfo}/>
           </div>
 
         </div>
