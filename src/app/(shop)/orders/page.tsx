@@ -4,10 +4,6 @@ import { NotPaidButton, Pagination, PaidButton } from "@/components"
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-const orders = [
-  {}
-]
-
 export default async function OrdersPage() {
   const session = await auth();
 

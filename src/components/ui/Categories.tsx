@@ -7,9 +7,9 @@ const categories = [
   { name: 'camisetas', path: "/category/camisetas" },
   { name: 'pantalones', path: "/category/pantalones" },
   { name: 'zapatos', path: "/category/zapatos" },
-  { name: 'hombres', path: "/gender/hombres" },
-  { name: 'mujeres', path: "/gender/mujeres" },
-  { name: 'niños', path: "/gender/niños" },
+  { name: 'hombres', path: "/gender/men" },
+  { name: 'mujeres', path: "/gender/women" },
+  { name: 'niños', path: "/gender/kid" },
 ]
 
 interface Props {

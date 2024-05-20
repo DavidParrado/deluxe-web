@@ -7,12 +7,14 @@ interface PaginationOptions {
   page?: number;
   take?: number;
   gender?: Gender;
+  category?: string;
 }
 
 export const getPaginatedProductsWithImages = async ({
   page = 1,
   take = 12,
   gender,
+  category,
 }: PaginationOptions) => {
   if (isNaN(Number(page))) page = 1;
   if (page < 1) page = 1;
@@ -37,6 +39,7 @@ export const getPaginatedProductsWithImages = async ({
       },
       where: {
         gender: gender,
+        category: { name: category },
       },
     });
 
@@ -47,15 +50,13 @@ export const getPaginatedProductsWithImages = async ({
     return {
       currentPage: page,
       totalPages: totalPages,
-      products: products.map(
-        (product) => ({
-          ...product,
-          images: product.ProductImage.map((image) => image.url),
-        })
-      ),
+      products: products.map((product) => ({
+        ...product,
+        images: product.ProductImage.map((image) => image.url),
+      })),
     };
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw new Error("No se pudo ejecutar");
   }
 };

@@ -48,7 +48,7 @@ export const initialData: SeedData = {
       role: "user",
     },
   ],
-  categories: ["Camisetas", "Pantalones", "Zapatos"],
+  categories: ["camisetas", "pantalones", "zapatos"],
   products: [
     {
       // name: "Artem Bondarchuk", // title
