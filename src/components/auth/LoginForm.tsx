@@ -1,13 +1,14 @@
 'use client';
 
-import { login } from "@/actions";
+import { authenticate, login } from "@/actions";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ZodType, z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useFormState } from "react-dom";
 
 type FormInputs = {
   email: string;
@@ -22,27 +23,43 @@ const schemaValidator: ZodType<FormInputs> = z.object({
 
 export const LoginForm = () => {
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+
+  useEffect(() => {
+    console.log(errorMessage)
+    if (errorMessage === 'Success') {
+      // redireccionar
+      window.location.replace('/')
+    }
+  }, [errorMessage])
+
+
+  const [errMessage, setErrMessage] = useState('');
   const { register, handleSubmit, formState: { errors, isValid }, watch } = useForm<FormInputs>({ resolver: zodResolver(schemaValidator) });
 
   watch('email');
   watch('password');
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    setErrorMessage('');
+    setErrMessage('');
     const { email, password } = data;
-
     if (!isValid) {
       return;
     };
 
+    const formData = new FormData();
+    formData.append('email',email.toLowerCase());
+    formData.append('password',password);
+
+
+    dispatch(formData);
     // Server action
-    const resp = await login(email.toLowerCase(), password);
-    if (!resp.ok) {
-      setErrorMessage(resp.message ?? "No se pudo iniciar sesion, intenta de nuevo")
-      return;
-    }
-    window.location.replace('/')
+    // const resp = await login(email.toLowerCase(), password);
+    // if (!resp.ok) {
+    //   setErrorMessage(resp.message ?? "No se pudo iniciar sesion, intenta de nuevo")
+    //   return;
+    // }
+    // window.location.replace('/')
   }
 
 
@@ -92,12 +109,12 @@ export const LoginForm = () => {
         </div>
 
         {
-          errorMessage && (
-            <p className="text-red-500">*{errorMessage}</p>
+          errMessage && (
+            <p className="text-red-500">*{errMessage}</p>
           )
         }
 
-        <button className="block w-full bg-slate-800 mt-5 py-2 rounded-2xl hover:bg-slate-700 transition-all duration-500 text-white font-semibold mb-2">Iniciar sesion</button>
+        <button type="submit" className="block w-full bg-slate-800 mt-5 py-2 rounded-2xl hover:bg-slate-700 transition-all duration-500 text-white font-semibold mb-2">Iniciar sesion</button>
 
         <div className="flex justify-between mt-4">
           <Link href="/" className="text-sm ml-2 hover:text-blue-500 cursor-pointer duration-500 transition-all">Regresar</Link>

@@ -133,13 +133,14 @@ export const TopBar = () => {
                     Cuenta
                   </Link>
 
-                  <div className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300">
+                  <button onClick={async() => {
+                    setIsMenuOpen(false);
+                    await logout()
+                    window.location.reload();
+                  }} className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300">
                     <FontAwesomeIcon icon={faRightFromBracket} width={14} height={14} />
-                    <button onClick={() => {
-                      setIsMenuOpen(false);
-                      logout()
-                    }}>Salir</button>
-                  </div>
+                    Salir
+                  </button>
                   <div className="w-full lg:hidden flex items-center justify-center">
                     &copy;Copyright. All rights reserved
                   </div>

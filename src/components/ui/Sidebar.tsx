@@ -2,12 +2,10 @@
 
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket, faRightToBracket, faBagShopping, faUser, faUsers, faXmark, faBookmark, faStore } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket, faRightToBracket, faBagShopping, faUser, faUsers, faXmark, faStore } from '@fortawesome/free-solid-svg-icons';
 import { useUIStore } from '@/store';
 import { useSession } from 'next-auth/react';
 import { logout } from '@/actions';
-import { useRouter } from 'next/navigation';
-
 interface Props {
   className?: string;
 }
@@ -75,11 +73,11 @@ export const Sidebar = ({ className }: Props) => {
 
               <button
                 className="flex w-full items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
-                onClick={async() => {
+                onClick={async () => {
                   await logout()
                   closeMenu()
                   window.location.reload()
-                  
+
                 }}
               >
                 <FontAwesomeIcon icon={faRightFromBracket} className='h-8 w-8' />
@@ -93,6 +91,7 @@ export const Sidebar = ({ className }: Props) => {
         {
           !isAuthenticated && (
             <Link
+              onClick={() => closeMenu()}
               href="/auth/login"
               className="flex items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
             >
