@@ -1,10 +1,24 @@
+import { getOrderByUser } from "@/actions";
+import { auth } from "@/auth.config";
 import { NotPaidButton, Pagination, PaidButton } from "@/components"
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const orders = [
   {}
 ]
 
-export default function OrdersPage() {
+export default async function OrdersPage() {
+  const session = await auth();
+
+  if(!session?.user) {
+    redirect('/auth/login');
+  }
+
+  const { ok, orders = [] } = await getOrderByUser();
+  if (!ok) {
+    redirect('/auth/login');
+  }
   return (
     <section className="w-full mt-0 h-full">
       <h1 className="font-bold mb-4">Todas las ordenes</h1>
@@ -55,32 +69,34 @@ export default function OrdersPage() {
                 </thead>
 
                 <tbody className="bg-white divide-y divide-gray-200">
-                  
-                  <tr>
-                    <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                      <div className="inline-flex items-center gap-x-3">
-                        <input type="checkbox" className="text-blue-500 border-gray-300 rounded" />
-
-                        <span>#3066</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">Jan 6, 2022</td>
-                    <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                      <PaidButton />
-                    </td>
-                    <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
-                      <div>
-                        <h2 className="text-sm font-medium text-gray-800 ">Arthur Melo</h2>
-                        <p className="text-xs font-normal text-gray-600">authurmelo@example.com</p>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">$200</td>
-                    <td className="px-4 py-4 text-sm whitespace-nowrap">
-                      <button className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
-                          Download
-                      </button>
-                    </td>
-                  </tr>
+                  {
+                    orders.map(order => (
+                      <tr key={order.id}>
+                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                          <div className="inline-flex items-center gap-x-3">
+                            <input type="checkbox" className="text-blue-500 border-gray-300 rounded" />
+                            <span>#{order!.id.split('-').at(-1)}</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">{order.isPaid ? order.paidAt?.toLocaleString() : "No ha sido cancelado aún"}</td>
+                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                          {order.isPaid ? <PaidButton /> : <NotPaidButton />}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+                          <div>
+                            <h2 className="text-sm font-medium text-gray-800 ">{`${order.OrderAddress?.firstName} ${order.OrderAddress?.lastName}`}</h2>
+                            <p className="text-xs font-normal text-gray-600">{order.OrderAddress?.phone}</p>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">${order.total}</td>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <Link href={`/orders/${order.id}`} className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                            Ver mas
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
+                  }
 
                 </tbody>
               </table>
@@ -89,7 +105,7 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      <Pagination />
+      {/* <Pagination totalPages={}/> */}
 
     </section>
   )

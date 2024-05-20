@@ -20,6 +20,7 @@ export const getOrderByUser = async () => {
         select: {
           firstName: true,
           lastName: true,
+          phone: true
         },
       },
     },
