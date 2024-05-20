@@ -19,7 +19,7 @@ interface Props {
 export const Categories = ({ className }: Props) => {
 
   const pathname = usePathname();
-  if (pathname.startsWith('/account') || pathname.startsWith('/cart') || pathname.startsWith('/orders')) {
+  if (pathname.startsWith('/account') || pathname.startsWith('/cart') || pathname.startsWith('/orders') ||pathname.startsWith('/checkout')) {
     return <div className="mt-14 md:mt-[72px]"></div>
   }
 

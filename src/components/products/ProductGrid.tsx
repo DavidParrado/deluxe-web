@@ -1,3 +1,4 @@
+import { Product } from "@/interfaces"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -35,20 +36,24 @@ const products = [
   { name: "Usama Akram", price: 200, description: "", imageUrl: "/products/usama-akram-s-gYAbQToXk-unsplash.png" },
 ]
 
-export const ProductGrid = () => {
+interface Props {
+  products: Product[]
+}
+
+export const ProductGrid = ({ products }: Props) => {
   return (
     <div className="flex items-end justify-center mt-10">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
 
         {
           products.map(product => (
-            <div key={product.name} className="bg-white rounded-lg border p-4">
-              <Link href={'/product/abc'} >
-                <Image src={product.imageUrl} alt="Placeholder Image" className="rounded-md object-cover w-full h-48 transition duration-300 ease-in-out hover:opacity-75" width={800} height={800} />
+            <div key={product.slug} className="bg-white rounded-lg border p-4">
+              <Link href={`/product/${product.slug}`}>
+                <Image src={`/products/${product.images[0]}`} alt="Placeholder Image" className="rounded-md object-cover w-full h-48 transition duration-300 ease-in-out hover:opacity-75" width={800} height={800} />
               </Link>
 
               <div className="px-1 py-4">
-                <div className="text-lg mb-2">{product.name}</div>
+                <div className="text-lg mb-2">{product.title}</div>
                 <p className="font-bold text-gray-900 text-base">
                   ${product.price}
                 </p>

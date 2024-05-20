@@ -2,10 +2,9 @@
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Dropdown } from "../ui/Dropdown";
-import { countries } from "@/seed/seed-countries";
 import { ZodType, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserAddress } from "@/interfaces";
+import { Country, UserAddress } from "@/interfaces";
 import { useState } from "react";
 import { Spinner } from "../ui/Spinner";
 import { setUserAddress } from "@/actions";
@@ -36,10 +35,11 @@ const schema: ZodType<ContactInputs> = z.object({
 })
 
 interface Props {
-  addressInfo: UserAddress | null
+  addressInfo: UserAddress | null;
+  countries: Country[]
 }
 
-export const ContactForm = ({ addressInfo }: Props) => {
+export const ContactForm = ({ addressInfo, countries }: Props) => {
 
   const { data: session } = useSession({ required: true });
   const [isLoading, setIsLoading] = useState(false);
@@ -75,14 +75,6 @@ export const ContactForm = ({ addressInfo }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="h-full text-center flex justify-between py-4">
-        <h6 className="text-sm md:text-base font-bold uppercase">
-          Informacion de contacto
-        </h6>
-        <button type="submit" className="bg-slate-800 text-white active:bg-slate-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
-          Guardar
-        </button>
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
         <div className="w-full ">
           <div className="relative w-full mb-3">

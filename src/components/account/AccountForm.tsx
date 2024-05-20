@@ -57,14 +57,6 @@ export const AccountForm = ({ accountInfo }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="h-full text-center flex justify-between py-4">
-        <h6 className="text-sm md:text-base font-bold uppercase">
-          Informacion del usuario
-        </h6>
-        <button type="submit" className="bg-slate-800 text-white active:bg-slate-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
-          Guardar
-        </button>
-      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10">
 
         <div className="w-full">
