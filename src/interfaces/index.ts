@@ -8,3 +8,5 @@ export * from "./product.interface";
 export * from "./country.interface";
 
 export * from './category.interface';
+
+export * from "./paypal.interface";

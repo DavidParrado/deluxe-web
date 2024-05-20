@@ -65,6 +65,7 @@ export const Sidebar = ({ className }: Props) => {
 
               <Link
                 href="/orders"
+                onClick={() => closeMenu()}
                 className="flex items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
               >
                 <FontAwesomeIcon icon={faBagShopping} className='h-8 w-8' />
