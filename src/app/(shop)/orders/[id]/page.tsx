@@ -1,5 +1,5 @@
 import { getOrderById } from "@/actions"
-import { AddressSummary, NotPaidButton, OrderSummary, PaidButton, ProductImage } from "@/components"
+import { AddressSummary, NotPaidButton, OrderSummary, PaidButton, PayPalButton, ProductImage } from "@/components"
 import { OrderStatus } from "@/components/orders/OrderStatus"
 import { currencyFormat } from "@/utils"
 import Image from "next/image"
@@ -88,11 +88,19 @@ export default async function OrderPage({ params }: Props) {
           <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
-            <p className="mb-1 text-lg font-bold">{currencyFormat(order!.total)}</p>
+            <p className="m-1 text-lg font-bold">{currencyFormat(order!.total)}</p>
           </div>
 
-          <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar</button>
-          <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar con tarjeta de credito</button>
+          {
+
+            order?.isPaid ? (
+              <OrderStatus isPaid={order.isPaid ?? false} />
+            ) : (
+              <PayPalButton amount={order!.total} orderId={order!.id} />
+            )
+          }
+          {/* <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar</button>
+          <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar con tarjeta de credito</button> */}
 
         </div>
 

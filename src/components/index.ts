@@ -39,3 +39,5 @@ export * from "./address/AddressSummary";
 export * from "./order/PlaceOrder";
 export * from "./order/OrderSummary";
 export * from "./order/ProductsInOrder";
+
+export * from "./paypal/PayPalButton";
