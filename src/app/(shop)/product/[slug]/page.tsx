@@ -54,14 +54,14 @@ export default async function ProductBySlugPage({ params }: Props) {
         {/* Mobile Slideshow */}
         <ProductMobileSlideshow
           title={product.title}
-          images={product.images}
+          images={product.images.length > 0 ? product.images : [""]}
           className="block md:hidden"
         />
 
         {/* Desktop Slideshow */}
         <ProductSlideshow
           title={product.title}
-          images={product.images}
+          images={product.images.length > 0 ? product.images : [""]}
           className="hidden md:block"
         />
 

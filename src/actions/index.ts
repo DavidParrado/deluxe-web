@@ -7,7 +7,10 @@ export * from "./address/get-user-address";
 export * from "./address/set-user-address";
 
 export * from "./account/set-account-info";
+
 export * from "./user/get-user-info";
+export * from "./user/change-user-role";
+export * from "./user/get-paginated-users";
 
 export * from "./product/product-pagination";
 export * from "./product/create-update-product"
@@ -24,3 +27,5 @@ export * from "./order/place-order";
 
 export * from "./payments/paypal-payment";
 export * from "./payments/set-transaction-id";
+
+export * from "./category/get-categories";

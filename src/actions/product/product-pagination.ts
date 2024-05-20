@@ -44,7 +44,9 @@ export const getPaginatedProductsWithImages = async ({
     });
 
     // 2. Obtener el total de paginas
-    const totalCount = await prisma.product.count({ where: { gender } });
+    const totalCount = await prisma.product.count({
+      where: { gender, category: { name: category } },
+    });
     const totalPages = Math.ceil(totalCount / take);
 
     return {

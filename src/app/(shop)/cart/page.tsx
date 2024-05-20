@@ -1,12 +1,6 @@
 import { OrderSummary, ProductsInCart } from "@/components"
 import Link from "next/link"
 
-const cartItems = [
-  { productName: 'Nike Air Max 2019', units: 2, price: 250, size: '30' },
-  { productName: 'Nike Air Max 2019', units: 2, price: 250, size: '30' },
-  { productName: 'Nike Air Max 2019', units: 2, price: 250, size: '30' },
-]
-
 export default function CartPage() {
   return (
     <div className="h-full">

@@ -1,6 +1,7 @@
 import { Product } from "@/interfaces"
 import Image from "next/image"
 import Link from "next/link"
+import { ProductImage } from "../product/product-image/ProductImage"
 
 
 const products = [
@@ -49,7 +50,7 @@ export const ProductGrid = ({ products }: Props) => {
           products.map(product => (
             <div key={product.slug} className="bg-white rounded-lg border p-4">
               <Link href={`/product/${product.slug}`}>
-                <Image src={`/products/${product.images[0]}`} alt="Placeholder Image" className="rounded-md object-cover w-full h-48 transition duration-300 ease-in-out hover:opacity-75" width={800} height={800} />
+                <ProductImage src={product.images[0]} alt="Placeholder Image" className="rounded-md object-cover w-full h-48 transition duration-300 ease-in-out hover:opacity-75" width={800} height={800} />
               </Link>
 
               <div className="px-1 py-4">

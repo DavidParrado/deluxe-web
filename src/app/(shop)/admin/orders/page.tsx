@@ -1,23 +1,27 @@
-import { getOrderByUser } from "@/actions";
-import { auth } from "@/auth.config";
-import { NotPaidButton, Pagination, PaidButton } from "@/components"
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { getPaginatedOrders } from '@/actions';
+import { NotPaidButton, Pagination, PaidButton } from '@/components';
 
-export default async function OrdersPage() {
-  const session = await auth();
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
-  if(!session?.user) {
-    redirect('/auth/login');
+interface Props {
+  searchParams: {
+    page: string;
   }
+}
 
-  const { ok, orders = [] } = await getOrderByUser();
+export default async function OrdersPage({ searchParams }: Props) {
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+
+  const { ok, orders = [], totalPages = 1 } = await getPaginatedOrders({ page });
+
   if (!ok) {
     redirect('/auth/login');
   }
+
   return (
     <section className="w-full mt-0 h-full">
-      <h1 className="font-bold mb-4">Todas las ordenes</h1>
+      <h1 className="font-bold mb-4">Todas las ordenes - Administrador</h1>
       <div className="w-full flex flex-col">
         <div className="w-full overflow-x-auto ">
           <div className="inline-block min-w-full py-2 align-middle">
@@ -101,8 +105,8 @@ export default async function OrdersPage() {
         </div>
       </div>
 
-      {/* <Pagination totalPages={}/> */}
+      <Pagination totalPages={totalPages} />
 
     </section>
-  )
+  );
 }

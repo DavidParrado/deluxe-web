@@ -1,12 +1,13 @@
 'use client';
 
-import { faUser, faBagShopping, faCartShopping, faHamburger, faBars } from "@fortawesome/free-solid-svg-icons"
+import { faUser, faBagShopping, faCartShopping, faBars, faUsers, faStore, faRightFromBracket, faRightToBracket } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Logo } from "./Logo"
-import { SearchBar } from "./SearchBar"
 import Link from "next/link"
 import { useEffect, useState } from "react";
 import { useCartStore, useUIStore } from "@/store";
+import { useSession } from "next-auth/react";
+import { logout } from "@/actions";
 
 const menuOptions = [
   { name: 'Camisetas', path: '/category/camisetas' },
@@ -23,6 +24,10 @@ export const TopBar = () => {
 
   const [loaded, setLoaded] = useState(false);
   const totalItemsInCart = useCartStore(state => state.getTotalItems());
+
+  const { data: session } = useSession();
+  const isAuthenticated = !!session?.user;
+  const isAdmin = session?.user.role === "admin";
 
   useEffect(() => {
     setLoaded(true)
@@ -75,9 +80,9 @@ export const TopBar = () => {
 
       {
         isMenuOpen && (
-          <div className="w-full h-full flex flex-col p-10 md:hidden bg-blue-200 fixed top-14 left-0 border border-blue-100 gap-10">
+          <div className="w-full h-full flex flex-col px-10 py-5 md:hidden bg-blue-200 fixed top-14 left-0 border border-blue-100 gap-5">
 
-            <ul className="w-full h-full flex flex-col gap-10">
+            <ul className="w-full h-fit flex flex-col gap-4">
               {
                 menuOptions.map(opt => (
                   <li key={opt.path} className="text-black text-2xl capitalize">
@@ -86,22 +91,62 @@ export const TopBar = () => {
                 ))
               }
             </ul>
+            <div className="h-full w-full flex flex-col gap-3">
 
-            <div className="h-full w-full flex flex-col gap-8">
-              <div className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300">
-                <FontAwesomeIcon icon={faBagShopping} width={14} height={14} />
-                <Link href={'/cart'}>Compras</Link>
-              </div>
+              {!isAuthenticated && (
+                <>
+                  <Link className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300" onClick={() => setIsMenuOpen(false)} href={'/auth/login'}>
+                    <FontAwesomeIcon icon={faRightToBracket} width={14} height={14} />
+                    Ingresar
+                  </Link>
+                </>
+              )}
 
-              <div className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300">
-                <FontAwesomeIcon icon={faUser} width={14} height={14} />
-                <Link href={'/account'}>Cuenta</Link>
-              </div>
-              <div className="w-full mt-8 lg:hidden flex items-center justify-center">
-                &copy;Copyright. All rights reserved
-              </div>
+              {isAdmin && (
+                <>
+                  <Link className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300" onClick={() => setIsMenuOpen(false)} href={'/admin/orders'}>
+                    <FontAwesomeIcon icon={faBagShopping} width={14} height={14} />
+                    Ordenes
+                  </Link>
+
+                  <Link className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300" onClick={() => setIsMenuOpen(false)} href={'/admin/products'}>
+                    <FontAwesomeIcon icon={faStore} width={14} height={14} />
+                    Productos
+                  </Link>
+
+                  <Link className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300" onClick={() => setIsMenuOpen(false)} href={'/admin/users'}>
+                    <FontAwesomeIcon icon={faUsers} width={14} height={14} />
+                    Usuarios
+                  </Link>
+                </>
+              )}
+
+              {isAuthenticated && (
+                <>
+                  <Link className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300" onClick={() => setIsMenuOpen(false)} href={'/orders'}>
+                    <FontAwesomeIcon icon={faBagShopping} width={14} height={14} />
+                    Mis ordenes
+                  </Link>
+
+                  <Link className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300" onClick={() => setIsMenuOpen(false)} href={'/account'}>
+                    <FontAwesomeIcon icon={faUser} width={14} height={14} />
+                    Cuenta
+                  </Link>
+
+                  <div className="w-full bg-black text-white py-3 px-5 flex items-center gap-2 cursor-pointer hover:bg-slate-800 transition-colors duration-300">
+                    <FontAwesomeIcon icon={faRightFromBracket} width={14} height={14} />
+                    <button onClick={() => {
+                      setIsMenuOpen(false);
+                      logout()
+                    }}>Salir</button>
+                  </div>
+                  <div className="w-full lg:hidden flex items-center justify-center">
+                    &copy;Copyright. All rights reserved
+                  </div>
+                </>
+              )}
+
             </div>
-
           </div>
         )
       }

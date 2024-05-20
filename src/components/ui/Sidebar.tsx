@@ -133,15 +133,6 @@ export const Sidebar = ({ className }: Props) => {
               <FontAwesomeIcon icon={faStore} className='h-8 w-8' />
               <span className="ml-3 text-xl">Productos</span>
             </Link>
-
-            <Link
-              href="/admin/users"
-              className="flex items-center mt-10 p-2 hover:bg-blue-50 py-4 rounded transition-all"
-              onClick={() => closeMenu()}
-            >
-              <FontAwesomeIcon icon={faBookmark} className='h-8 w-8' />
-              <span className="ml-3 text-xl">Categorias</span>
-            </Link>
           </>
         }
 

@@ -6,6 +6,7 @@ import { QuantitySelector } from "../product/quantity-selector/QuantitySelector"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const ProductsInCart = () => {
 
@@ -22,6 +23,10 @@ export const ProductsInCart = () => {
 
   if (!loaded) {
     return <p>Loading...</p>
+  }
+
+  if(productsInCart.length === 0 ) {
+    redirect('/');
   }
   
   return (
