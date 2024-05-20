@@ -1,61 +1,32 @@
-import { NotPaidButton, PaidButton } from "@/components"
+import { getOrderById } from "@/actions"
+import { AddressSummary, NotPaidButton, OrderSummary, PaidButton, ProductImage } from "@/components"
 import { OrderStatus } from "@/components/orders/OrderStatus"
 import { currencyFormat } from "@/utils"
 import Image from "next/image"
+import { redirect } from "next/navigation"
 
-const order = {
-  id: '809c9013-9c87-4b9a-a482-ff848d372cad',
-  OrderItem: [
-    {
-      size: '32US',
-      price: 200,
-      quantity: 2,
-      product: {
-        title: 'Ervan M Wiravan',
-        slug: 'whatever',
-        ProductImage: [{ url: 'ervan-m-wirawan-tgdgb6yb0Qo-unsplash.png' }]
-      }
-    },
-    {
-      size: '32US',
-      price: 200,
-      quantity: 2,
-      product: {
-        title: 'Ervan M Wiravan',
-        slug: 'whatever',
-        ProductImage: [{ url: 'ervan-m-wirawan-tgdgb6yb0Qo-unsplash.png' }]
-      }
-    },
-    {
-      size: '32US',
-      price: 200,
-      quantity: 2,
-      product: {
-        title: 'Ervan M Wiravan',
-        slug: 'whatever',
-        ProductImage: [{ url: 'ervan-m-wirawan-tgdgb6yb0Qo-unsplash.png' }]
-      }
-    },
-  ],
-  itemsInOrder: 1,
-  subTotal: 200,
-  total: 238,
-  tax: 38,
-  isPaid: true
+interface Props {
+  params: {
+    id: string;
+  }
 }
 
-const address = {
-  firstName: 'Juan',
-  lastName: 'Grimaldo',
-  address: 'Calle 25M #20d-20',
-  address2: '',
-  postalCode: '500001',
-  city: 'Villavicencio',
-  country: { name: 'Colombia', },
-  phone: '3223864759'
-}
+export default async function OrderPage({ params }: Props) {
 
-export default function OrderPage() {
+  const { id } = params;
+
+  // Todo: Llamar el server action
+  const { ok, order } = await getOrderById(id);
+  if (!ok) {
+    redirect('/')
+  }
+
+  const address = order!.OrderAddress;
+
+  // Todo: verificar
+  // redirect(/)
+
+
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col md:flex-row w-full lg:max-w-[90%] xl:max-w-[80%] gap-x-[5%] lg:gap-x-[10%]">
@@ -63,11 +34,11 @@ export default function OrderPage() {
 
         <div className="w-full flex flex-col gap-4">
 
-          <h1 className="text-xl md:text-2xl xl:text-3xl font-bold">{`Orden #${order.id.split('-').at(-1)}`}</h1>
+          <h1 className="text-xl md:text-2xl xl:text-3xl font-bold">{`Orden #${order!.id.split('-').at(-1)}`}</h1>
           {/* Carrito */}
           <div className="w-full flex flex-col">
 
-            <OrderStatus isPaid={order.isPaid} />
+            <OrderStatus isPaid={order!.isPaid} />
 
             <br />
             {/* Items */}
@@ -75,15 +46,11 @@ export default function OrderPage() {
               order!.OrderItem.map(item => (
 
                 <div key={item.product.slug + '-' + item.size} className="w-full flex mb-5">
-                  <div className="w-fit">
-                    <Image
-                      src={`/products/${item.product.ProductImage[0].url}`}
-                      width={100}
-                      height={100}
-                      style={{
-                        width: '100px',
-                        height: '100px'
-                      }}
+                  <div className="max-w-36 md:max-w-48">
+                    <ProductImage
+                      src={`${item.product.ProductImage[0].url}`}
+                      width={600}
+                      height={600}
                       alt={item.product.title}
                       className="rounded"
                     />
@@ -96,8 +63,6 @@ export default function OrderPage() {
                   </div>
 
                 </div>
-
-
               ))
             }
           </div>
@@ -106,29 +71,24 @@ export default function OrderPage() {
 
         {/* Checkout - Resumen de orden */}
         <div className="h-fit rounded-lg border bg-white p-6 shadow-md md:mt-0 w-full max-w-[50rem]">
-          <div className="flex flex-col justify-between gap-1 xl:gap-2">
-            <p className="text-lg font-bold">Direccion de entrega</p>
-            <p className="text-gray-700">Juan Grimaldo</p>
-            <p className="text-gray-700">Calle 3</p>
-            <p className="text-gray-700">500001</p>
-            <p className="text-gray-700">Villavicencio, Colombia</p>
-            <p className="text-gray-700">3223864759</p>
-          </div>
+          <AddressSummary />
           <hr className="my-4" />
-          <div className="xl:mb-2 flex justify-between">
+          <div className="mb-2 flex justify-between">
             <p className="text-gray-700">No. Productos</p>
-            <p className="text-gray-700">2</p>
+            <p className="text-gray-700">{order!.itemsInOrder === 1 ? '1 articulo' : `${order!.itemsInOrder} articulos`}</p>
+          </div>
+          <div className="mb-2 flex justify-between">
+            <p className="text-gray-700">Subtotal</p>
+            <p className="text-gray-700">{currencyFormat(order!.subTotal)}</p>
           </div>
           <div className="flex justify-between">
-            <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">$130</p>
+            <p className="text-gray-700">Impuestos(19)%</p>
+            <p className="text-gray-700">{currencyFormat(order!.tax)}</p>
           </div>
           <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
-            <div className="">
-              <p className="mb-1 text-lg font-bold">$134.98 USD</p>
-            </div>
+            <p className="mb-1 text-lg font-bold">{currencyFormat(order!.total)}</p>
           </div>
 
           <button className="mt-6 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">Pagar</button>

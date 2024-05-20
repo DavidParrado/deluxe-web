@@ -16,3 +16,8 @@ export * from "./product/get-product-by-slug"
 export * from "./product/get-stock-by-slug"
 
 export * from "./country/get-countries";
+
+export * from "./order/get-order-by-id"
+export * from "./order/get-order-by-user"
+export * from "./order/get-paginated-orders"
+export * from "./order/place-order";

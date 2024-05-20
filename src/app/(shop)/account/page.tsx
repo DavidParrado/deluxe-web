@@ -27,25 +27,28 @@ export default async function AccountPage() {
           </div>
 
           <div className="flex-auto px-6 pb-4 pt-0">
-            <div className="h-full text-center flex justify-between py-4">
-              <h6 className="text-sm md:text-base font-bold uppercase">
-                Informacion del usuario
-              </h6>
-              <button type="submit" className="bg-slate-800 text-white active:bg-slate-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
-                Guardar
-              </button>
-            </div>
-            <AccountForm accountInfo={userInfo as User}/>
+
+            <AccountForm accountInfo={userInfo as User}>
+              <div className="h-full text-center flex justify-between py-4">
+                <h6 className="text-sm md:text-base font-bold uppercase">
+                  Informacion del usuario
+                </h6>
+                <button type="submit" className="bg-slate-800 text-white active:bg-slate-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
+                  Guardar
+                </button>
+              </div>
+            </AccountForm>
             <hr className="border-b-1" />
-            <div className="h-full text-center flex justify-between py-4">
-              <h6 className="text-sm md:text-base font-bold uppercase">
-                Informacion de contacto
-              </h6>
-              <button type="submit" className="bg-slate-800 text-white active:bg-slate-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
-                Guardar
-              </button>
-            </div>
-            <ContactForm addressInfo={addressInfo} countries={countries}/>
+            <ContactForm addressInfo={addressInfo} countries={countries}>
+              <div className="h-full text-center flex justify-between py-4">
+                <h6 className="text-sm md:text-base font-bold uppercase">
+                  Informacion de contacto
+                </h6>
+                <button type="submit" className="bg-slate-800 text-white active:bg-slate-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
+                  Guardar
+                </button>
+              </div>
+            </ContactForm>
           </div>
 
         </div>

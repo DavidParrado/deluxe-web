@@ -14,7 +14,8 @@ type FormInputs = {
 }
 
 interface Props {
-  accountInfo: User
+  accountInfo: User;
+  children?: React.ReactNode;
 }
 
 const schemaValidator: ZodType<FormInputs> = z.object({
@@ -22,7 +23,7 @@ const schemaValidator: ZodType<FormInputs> = z.object({
   lastName: z.string().min(1, "No debe estar vacio").trim().min(1, "No puede tener solo espacios"),
 })
 
-export const AccountForm = ({ accountInfo }: Props) => {
+export const AccountForm = ({ accountInfo, children }: Props) => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -57,6 +58,7 @@ export const AccountForm = ({ accountInfo }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {children}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10">
 
         <div className="w-full">

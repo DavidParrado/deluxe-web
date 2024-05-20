@@ -25,7 +25,7 @@ export default function CartPage() {
           <OrderSummary />
           <div className="text-center mt-5 w-full rounded-md bg-slate-800 py-1.5 font-medium text-blue-50 hover:bg-slate-700">
             <Link href="/checkout/address">
-              Generar orden
+              Verificar orden
             </Link>
           </div>
         </div>
